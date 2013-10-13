@@ -1,14 +1,39 @@
-{   "image": "", 
-    "name": "",
+{   "name": "express-add-mongodb",
     "version": "0.0.0",                                                   
     "github": {                                                           
         "user": "ZECTBynmo",                                              
-        "repo": "express_add_database"
+        "repo": "express_add_mongo"
     }, 
 
     "procedure": [
+
+        // Generate the database script
+        {   "title": "Generate database script",
+            "type": "template",
+
+            "sourcedir": "leto/templates",
+            "templates": [
+                {   "name": "database", 
+                    "dest": "database.js"
+                },
+            ]
+        },
+
         {   "title": "",
-            "type": "",
+            "type": "change", 
+
+            "ruleset": "leto/rules.js",
+            "changes": [
+
+                // Instantiate and initialize our database instance
+                {   "rule": "insertAfterFinding",
+                    "file": "routes/router.js",
+                    "args": [
+                        "leto-marker-router-requires",
+                        "var Database = require('../database').Database;\nvar database = new Database();\ndatabase.init();\n",
+                    ],
+                },
+            ]
         },
     ]
 }
